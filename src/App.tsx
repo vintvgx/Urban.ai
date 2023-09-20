@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LandingScreen from "./view/LandingScreen/LandingScreen";
 import ChatView from "./view/ChatView/ChatView";
 import "./App.css";
-import { Provider } from "react-redux";
 
 const App: React.FC = () => {
   return (
