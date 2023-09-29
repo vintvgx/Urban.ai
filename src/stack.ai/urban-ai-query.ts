@@ -1,3 +1,5 @@
+const loremIpsum2 = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac magna sit amet purus gravida cursus. Praesent sed massa vitae augue condimentum pharetra vitae id odio. Integer nec ultrices risus, id vehicula urna. Vivamus non tortor sit amet nulla facilisis tincidunt.`;
+
 export async function urban_query(data: { "in-0": string }) {
   const loremIpsum = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac magna sit amet purus gravida cursus. Praesent sed massa vitae augue condimentum pharetra vitae id odio. Integer nec ultrices risus, id vehicula urna. Vivamus non tortor sit amet nulla facilisis tincidunt.
 
@@ -9,21 +11,20 @@ Proin eu fermentum elit, eget ultrices erat. Vestibulum ante ipsum primis in fau
 
 Aliquam volutpat elit sed purus euismod, id aliquet nisl dictum. Nullam dapibus at enim vitae suscipit. Aenean lacinia, nunc id tincidunt tincidunt, libero ante mollis dui, vitae viverra magna nisi at leo.`;
 
-  console.log(loremIpsum);
-
-  const response = await fetch(
-    "https://www.stack-inference.com/run_deployed_flow?flow_id=6508aaaf2096c65d46afbfc5&org=e1670d49-01c5-43d5-ae31-f6f322b3c628",
-    {
-      headers: {
-        Authorization: "Bearer e5488071-d288-4700-8d90-0b13fdeb28be",
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify(data),
-    }
-  );
-  const result = await response.json();
-  return result["out-0"] || { loremIpsum }; // default message if "out-0" doesn't exist
+  // const response = await fetch(
+  //   "https://www.stack-inference.com/run_deployed_flow?flow_id=6508aaaf2096c65d46afbfc5&org=e1670d49-01c5-43d5-ae31-f6f322b3c628",
+  //   {
+  //     headers: {
+  //       Authorization: "Bearer e5488071-d288-4700-8d90-0b13fdeb28be",
+  //       "Content-Type": "application/json",
+  //     },
+  //     method: "POST",
+  //     body: JSON.stringify(data),
+  //   }
+  // );
+  // const result = await response.json();
+  // return result["out-0"] ||  loremIpsum ; // default message if "out-0" doesn't exist
+  return loremIpsum2;
 }
 
 urban_query({
