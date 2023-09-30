@@ -2,9 +2,8 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Header.css";
 import { useTheme } from "../../theme/themeContext";
-import { AppDispatch, useAppSelector } from "../../redux/store";
+import { useAppSelector } from "../../redux/store";
 import { BiMenuAltLeft } from "react-icons/bi";
-import { useDispatch } from "react-redux";
 
 interface HeaderProps {
   onViewHistory?: () => void; // New prop to handle view history
@@ -12,11 +11,9 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ onViewHistory }) => {
   const navigate = useNavigate();
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
 
   const user = useAppSelector((state) => state.user);
-
-  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     if (user) {

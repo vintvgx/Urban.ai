@@ -17,7 +17,6 @@ import {
   signInWithFacebookPopup,
   signInWithGooglePopup,
 } from "../../firebase/firebase.config";
-import Header from "../../components/Header/Header";
 import "../AuthView/AuthView.css";
 import { useTheme } from "../../theme/themeContext";
 import Footer from "../../components/Footer/Footer";

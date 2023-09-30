@@ -6,8 +6,6 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { getStorage, ref, uploadString } from "firebase/storage";
-import { IMessage } from "../model/types";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
