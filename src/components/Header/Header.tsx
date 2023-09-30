@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Header.css";
+import { useTheme } from "../../theme/themeContext";
+import { AppDispatch, useAppSelector } from "../../redux/store";
+import { BiMenuAltLeft } from "react-icons/bi";
+import { useDispatch } from "react-redux";
 
 interface HeaderProps {
   onViewHistory?: () => void; // New prop to handle view history
@@ -8,43 +12,42 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ onViewHistory }) => {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
 
-  //* Redux toolkit getUser
-  // const dispatch = useDispatch<AppDispatch>();
+  const user = useAppSelector((state) => state.user);
 
-  // const user = useAppSelector((state: RootState) => state.user.user); // Assuming your slice state is at user.value
+  const dispatch = useDispatch<AppDispatch>();
 
-  // useEffect(() => {
-  //   if (user) {
-  //     console.log(`${user.uid}`);
-  //   } else {
-  //     console.log("NO USER.");
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    if (user) {
+      console.log(`${user}`);
+    } else {
+      console.log("NO USER.");
+    }
+  }, [user]);
 
-  // const [showDropdown, setShowDropdown] = useState(false);
+  const handleNavigateToAuthView = () => {
+    navigate("/auth");
+  };
 
-  const handleReturnToHome = () => {
+  const handleNavigateToRoot = () => {
     navigate("/");
   };
 
-  // const handleProfileClick = () => {
-  //   if (user) {
-  //     setShowDropdown(!showDropdown);
-  //   } else {
-  //     navigate("/auth");
-  //   }
-  // };
-
-  // const handleLogout = () => {
-  //   dispatch(logout());
-  // };
-
   return (
-    <div className="header">
-      <h2>Urban.AI</h2>
-      <div className="profile-circle" onClick={handleReturnToHome}>
-        <h3>Sign Up / Login</h3>
+    <div className={`header ${theme}`}>
+      <BiMenuAltLeft size={25} onClick={onViewHistory} />
+      <h2 style={{ cursor: "pointer" }} onClick={handleNavigateToRoot}>
+        Urban.AI
+      </h2>
+      <div className="profile-circle">
+        <div className="profile-circle">
+          <h3 onClick={handleNavigateToAuthView}>
+            {user.isLoggedIn
+              ? `Hello ${user.user?.displayName}`
+              : "Sign Up / Login"}
+          </h3>
+        </div>
       </div>
     </div>
   );

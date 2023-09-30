@@ -1,19 +1,27 @@
-.App {
+
+body {
+  font-family: Colfax,sans-serif;
+}
+
+body.dark {
+  /* global styles for dark theme */
+  background-color: #333;
+  color: #FFF;
+}
+
+body.light {
+  /* global styles for light theme */
+  background-color: #fffefc;
+  color: #333;
+}
+
+.dark .App {
   text-align: center;
+  background-color: #000000;
+  color: white;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
+.dark .App-header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -24,15 +32,30 @@
   color: white;
 }
 
-.App-link {
+.dark .App-link {
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+.light .App {
+  text-align: center;
+  background-color: #ffffff; /* Changed from black to white */
+  color: #000000; /* Changed from white to black */
 }
+
+.light .App-header {
+  background-color: #f7f7f7; /* Changed to a lighter shade */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: #000000; /* Changed from white to black */
+}
+
+.light .App-link {
+  color: #0077cc; /* Changed to a darker blue for contrast on light background */
+}
+
+

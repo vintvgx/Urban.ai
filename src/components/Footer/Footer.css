@@ -1,0 +1,84 @@
+/* Footer.css */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  /* border-top: 1px solid #ccc; */
+}
+
+.footer p {
+  margin: 0;
+  font-size: 0.7rem;
+  text-align: center;
+  flex-grow: 1;  /* Ensures the text takes up all available space, centering it */
+}
+
+/* Toggle switch container */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+}
+
+
+/* Toggle switch slider (circle) */
+.toggle-switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* background-color: #ccc; */
+  border-radius: 28px;
+  transition: 0.4s;
+}
+
+.slider.dark {
+  background-color: rgb(255, 255, 255);
+}
+
+.slider.light {
+  background-color: rgb(0, 0, 0);
+}
+
+/* Circle inside the slider */
+.toggle-switch .slider::before {
+  position: absolute;
+  content: "";
+  height: 24px;
+  width: 24px;
+  left: 2px;
+  bottom: 2px;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+.toggle-switch .slider.dark::before {
+  background-color: rgb(0, 0, 0);
+}
+
+.toggle-switch .slider.light::before {
+  background-color: rgb(255, 255, 255);
+}
+
+/* Light mode (default) */
+.toggle-switch .slider.light::before {
+  transform: translateX(0px);
+}
+
+/* Dark mode */
+.toggle-switch .slider.dark::before {
+  transform: translateX(22px);
+}
+
+.footer-light {
+  background-color: #f7f7f7;
+}
+
+.footer-dark {
+  background-color: #222;
+  color: #e0e0e0;
+}
