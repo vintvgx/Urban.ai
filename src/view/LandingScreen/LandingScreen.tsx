@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import LandingScreenController from "../../controller/LandingScreenController";
 import "./LandingScreen.css"; // Import the CSS file
@@ -19,6 +20,7 @@ export default function LandingScreen() {
           Chat Now
         </button>
       </div>
+      <Footer />
     </div>
   );
 }

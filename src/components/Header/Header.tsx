@@ -47,9 +47,6 @@ const Header: React.FC<HeaderProps> = ({ onViewHistory }) => {
               ? `Hello ${user.user?.displayName}`
               : "Sign Up / Login"}
           </h3>
-          <button onClick={toggleTheme}>
-            {theme === "dark" ? "Switch to Light" : "Switch to Dark"}
-          </button>
         </div>
       </div>
     </div>

@@ -39,16 +39,10 @@ export const fetchChatHistory = async (user: any) => {
 export const handleSendMessage = async (
   input: string,
   user: any,
+  userMessage: IMessage,
   messages: IMessage[],
   sessionID: string
 ) => {
-  const userMessage: IMessage = {
-    type: "user",
-    content: input,
-    timestamp: new Date().toISOString(),
-    sessionID: sessionID,
-  };
-
   const data = {
     "in-0": input,
   };
@@ -67,7 +61,7 @@ export const handleSendMessage = async (
   // If user is signed in
   if (user.isLoggedIn) {
     try {
-      // Save the messages
+      // Save the messages (both user and bot)
       await fetch("http://localhost:4000/store-message", {
         method: "POST",
         headers: {
@@ -86,5 +80,5 @@ export const handleSendMessage = async (
     }
   }
 
-  return newMessages;
+  return botMessage;
 };

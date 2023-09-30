@@ -1,6 +1,11 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  FacebookAuthProvider,
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import { getStorage, ref, uploadString } from "firebase/storage";
 import { IMessage } from "../model/types";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -23,12 +28,17 @@ export const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 
-// Google Sign In Popup
-const provider = new GoogleAuthProvider();
+// Google Sign In Popup Provider
+const _google = new GoogleAuthProvider();
+
+// Facebook Sign In Popup Provider
+const _facebook = new FacebookAuthProvider();
 
 // whenever a user interacts with the provider, we force them to select an account
-provider.setCustomParameters({
+_google.setCustomParameters({
   prompt: "select_account ",
 });
 
-export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+export const signInWithGooglePopup = () => signInWithPopup(auth, _google);
+
+export const signInWithFacebookPopup = () => signInWithPopup(auth, _facebook);

@@ -23,10 +23,10 @@ const SocialCustomButton: React.FC<SocialCustomButtonProps> = ({
         border: "1px solid #ddd",
         // boxShadow: "2px 2px 10px rgba(0,0,0,0.3)",
         borderRadius: "5px",
-        width: "225px",
+        width: "100%",
         height: "40px",
         display: "flex",
-        alignItems: "center",
+        alignItems: "left",
         justifyContent: "center",
         textAlign: "center",
         // margin: "20px",
@@ -45,10 +45,10 @@ const SocialCustomButton: React.FC<SocialCustomButtonProps> = ({
       <p
         style={{
           color: "black",
-          fontSize: "14px",
           alignSelf: "center",
-          fontWeight: "bold",
+          fontWeight: "normal",
           height: "15px",
+          fontSize: "15px",
         }}>
         {children}
       </p>

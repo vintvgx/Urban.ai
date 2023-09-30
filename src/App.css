@@ -1,23 +1,7 @@
-/* .App {
-  text-align: center;
-  background-color: #000000;
-  color: white
-} */
 
-/* .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-} */
-
-/* .App-link {
-  color: #61dafb;
-} */
+body {
+  font-family: Colfax,sans-serif;
+}
 
 body.dark {
   /* global styles for dark theme */
@@ -27,7 +11,7 @@ body.dark {
 
 body.light {
   /* global styles for light theme */
-  background-color: #FFF;
+  background-color: #fffefc;
   color: #333;
 }
 

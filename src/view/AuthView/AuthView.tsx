@@ -13,9 +13,14 @@ import {
 } from "../../redux/slices/authSlice";
 import { AppDispatch, useAppSelector } from "../../redux/store";
 import SocialCustomButton from "../../components/SocialCustomButton";
-import { signInWithGooglePopup } from "../../firebase/firebase.config";
+import {
+  signInWithFacebookPopup,
+  signInWithGooglePopup,
+} from "../../firebase/firebase.config";
 import Header from "../../components/Header/Header";
 import "../AuthView/AuthView.css";
+import { useTheme } from "../../theme/themeContext";
+import Footer from "../../components/Footer/Footer";
 
 const AuthView: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -26,6 +31,7 @@ const AuthView: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { isLoading, error } = useAppSelector((state) => state.user);
+  const { theme } = useTheme(); // using the hook
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,45 +85,42 @@ const AuthView: React.FC = () => {
     }
   };
 
-  return (
-    <div>
-      <Header />
+  const loginFacebookUser = async () => {
+    try {
+      const response = await signInWithFacebookPopup();
 
-      <div className="auth-view">
+      if (response) {
+        dispatch(
+          setUser({
+            uid: response.user.uid,
+            email: response.user.email,
+            displayName: response.user.displayName,
+            photoURL: response.user.photoURL,
+            phoneNumber: response.user.phoneNumber,
+          })
+        );
+        dispatch(setLoggedIn(true)); // set logged in status to true
+        navigate("/chatview");
+      } else {
+        dispatch(authError("Facebook Sign-In Failed"));
+      }
+    } catch (error) {
+      dispatch(authError("Failed to login or signup with Facebook Auth."));
+    }
+  };
+
+  return (
+    <div style={{ display: "flex", height: "100vh", flexDirection: "column" }}>
+      <div className={`auth-view ${theme}`}>
         {isLoading && <p>Loading...</p>}
         {/* {error && <p>{error}</p>} */}
         {/* <button className="toggle-btn" onClick={() => setIsLogin(!isLogin)}>
           Toggle to {isLogin ? "Sign Up" : "Login"}
         </button> */}
         <form onSubmit={handleSubmit}>
-          <h1>
-            {isLogin ? "Your Pal is waiting for you!" : "Welcome to Pawpal!"}
-          </h1>
-          <p>
-            {isLogin
-              ? "Sign into your account."
-              : "Create an account to get started!"}
-          </p>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
+          <h2>{isLogin ? "Sign in to Urban.AI" : "Welcome to Urban.AI"}</h2>
+          <p>{!isLogin && "Create an account to get started!"}</p>
 
-              justifyContent: "space-around",
-              alignContent: "space-between",
-            }}>
-            <SocialCustomButton
-              onClick={loginGoogleUser}
-              imageURL="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg">
-              {isLogin ? "Sign in with Google" : "Sign Up with Google"}
-            </SocialCustomButton>
-
-            <SocialCustomButton
-              onClick={() => {}}
-              imageURL="https://upload.wikimedia.org/wikipedia/commons/4/4f/Facebook_circle_pictogram.svg">
-              {isLogin ? "Sign in with Facebook" : "Sign Up with Facebook"}
-            </SocialCustomButton>
-          </div>
           <div className="inputs-view">
             {!isLogin && (
               <input
@@ -140,15 +143,51 @@ const AuthView: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
             {error && <p style={{ color: "red", fontSize: "12px" }}>{error}</p>}
-            <button className="submit-btn" type="submit">
+            <button className={theme} style={{ width: "100%" }} type="submit">
               {isLogin ? "Login" : "Sign Up"}
             </button>
-          </div>
-          <div className="toggle-text" onClick={() => setIsLogin(!isLogin)}>
-            {isLogin ? "New to Pawpal? Sign Up" : "Already a user? Sign in"}
+            <div
+              className={`toggle-text ${theme}`}
+              onClick={() => setIsLogin(!isLogin)}>
+              {isLogin ? (
+                <>
+                  {"Don't have an account? "}
+                  <span style={{ color: "blue" }}>Sign Up</span>
+                </>
+              ) : (
+                <>
+                  {"Have an account? "}
+                  <span style={{ color: "blue" }}>Log in</span>
+                </>
+              )}
+            </div>
+            <p>OR</p>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "space-between",
+                width: "100%",
+              }}>
+              <SocialCustomButton
+                onClick={loginGoogleUser}
+                imageURL="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg">
+                {/* {isLogin ? "Sign in with Google" : "Sign Up with Google"} */}
+                Continue with Google
+              </SocialCustomButton>
+
+              <SocialCustomButton
+                onClick={loginFacebookUser}
+                imageURL="https://upload.wikimedia.org/wikipedia/commons/4/4f/Facebook_circle_pictogram.svg">
+                {/* {isLogin ? "Sign in with Facebook" : "Sign Up with Facebook"} */}
+                Continue with Facebook
+              </SocialCustomButton>
+            </div>
           </div>
         </form>
       </div>
+      <Footer />
     </div>
   );
 };
