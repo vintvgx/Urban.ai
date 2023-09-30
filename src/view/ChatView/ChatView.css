@@ -11,7 +11,7 @@
 .chat-container {
   /* overflow-y: scroll; */
   flex-direction: column;
-  max-height: 80vh;
+  max-height: 70vh;
   overflow-y: auto;
   gap: 15px;
   scrollbar-width: none;
@@ -156,4 +156,55 @@
 
 .user-message-entering {
   animation: slideLeftFade 0.7s forwards;
+}
+
+/*  
+ History MODAL
+*/
+
+.history-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 15%;
+  overflow: auto;
+  border-right: 1px solid #ddd;
+  z-index: 100;
+}
+
+/* Light Theme */
+.history-modal.light {
+  background-color: #f2f2f2;
+}
+
+/* Dark Theme */
+.history-modal.dark {
+  background-color: #2c2c2c; /* Or whatever color you want for dark mode */
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.history-content {
+  padding: 10px;
+}
+
+.history-message {
+  padding: 10px 0;
+}
+
+
+.history-session {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #ddd;
+}
+
+.history-session:hover {
+  background-color: #e6e6e6;
 }

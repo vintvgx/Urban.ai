@@ -2,26 +2,37 @@ import React, { useEffect, useRef, useState } from "react";
 import Header from "../../components/Header/Header";
 import { IMessage } from "../../model/types";
 import { useAppSelector } from "../../redux/store";
-import { urban_query } from "../../stack.ai/urban-ai-query";
+import {
+  generateSessionID,
+  fetchChatHistory,
+  handleSendMessage,
+} from "../../controller/ChatController";
 import "./ChatView.css";
+import { useTheme } from "../../theme/themeContext";
 
 const ChatView: React.FC = () => {
   const [input, setInput] = useState<string>("");
   const [botIsThinking, setBotIsThinking] = useState(false);
   const [inputAreaBottom, setInputAreaBottom] = useState(500);
   const [messageAdded, setMessageAdded] = useState<number>(0);
-  const [messages, setMessages] = useState<IMessage[]>([]); // Chat history
-  const [lastSavedMessageIndex, setLastSavedMessageIndex] = useState<number>(0);
-
+  const [messages, setMessages] = useState<IMessage[]>([]);
+  const [chatHistory, setChatHistory] = useState<IMessage[]>([]);
+  const [showHistoryModal, setShowHistoryModal] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
-
   const user = useAppSelector((state) => state.user);
-
-  const generateSessionID = () => {
-    return `${new Date().getTime()}-${Math.random().toString(36).substr(2, 9)}`;
-  };
-
   const [sessionID, setSessionID] = useState<string>(generateSessionID());
+  const { theme } = useTheme();
+
+  useEffect(() => {
+    if (!user.user) return;
+
+    console.log("FETCH MESSAGES CALLED");
+    const fetchData = async () => {
+      const data = await fetchChatHistory(user);
+      setChatHistory(data);
+    };
+    fetchData();
+  }, []);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
@@ -32,73 +43,23 @@ const ChatView: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const userMessage: IMessage = {
-      type: "user",
-      content: input,
-      timestamp: new Date().toISOString(),
-      session_id: sessionID,
-    };
-    setMessages([...messages, userMessage]);
-    setMessageAdded((prev) => prev + 1); // Increment the counter for user message
     setBotIsThinking(true);
 
-    const data = {
-      "in-0": input,
-    };
-
-    // const unsavedMessages = messages.slice(lastSavedMessageIndex); // +2 to account for userMessage and botMessage
-    // console.log(
-    //   "🚀 ~ file: ChatView.tsx:53 ~ handleSubmit ~ unsavedMessages:",
-    //   unsavedMessages
-    // );
-
     setTimeout(async () => {
-      const response = await urban_query(data);
-
-      const botMessage: IMessage = {
-        type: "bot",
-        content: response,
-        timestamp: new Date().toISOString(),
-        session_id: sessionID,
-      }; // Added timestamp and session_id
-
-      const newMessages = [...messages, userMessage, botMessage];
+      const newMessages = await handleSendMessage(
+        input,
+        user,
+        messages,
+        sessionID
+      );
       setMessages(newMessages);
-
       setBotIsThinking(false);
-      setMessageAdded((prev) => prev + 1); // Increment the counter for bot message
-
-      // If user is signed in
-      if (user.isLoggedIn) {
-        try {
-          // Save the messages
-          await fetch("http://localhost:4000/store-message", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer`,
-            },
-            body: JSON.stringify({
-              messages: newMessages,
-              userId: user.user?.uid,
-              sessionID,
-            }),
-          });
-          console.log("----------CHATBOT SAVED-----------");
-
-          // Update the index of the last saved message
-          setLastSavedMessageIndex(messages.length + 2);
-        } catch (error) {
-          console.error("Failed to store messages", error);
-        }
-      }
+      setMessageAdded((prev) => prev + 2); // Increment for both user and bot message
+      setInput("");
     }, 2000);
-
-    setInput("");
   };
 
   useEffect(() => {
-    // Scroll to the bottom whenever the messages change
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop =
         chatContainerRef.current.scrollHeight;
@@ -111,22 +72,53 @@ const ChatView: React.FC = () => {
       const screenHeight = window.innerHeight;
 
       let newBottomValue = screenHeight - chatContainerHeight - 250;
-
-      if (newBottomValue > 500) {
-        newBottomValue = 500;
-      }
-
-      if (newBottomValue < screenHeight * 0.02) {
+      if (newBottomValue > 500) newBottomValue = 500;
+      if (newBottomValue < screenHeight * 0.02)
         newBottomValue = screenHeight * 0.02;
-      }
 
       setInputAreaBottom(newBottomValue);
     }
   }, [messages, botIsThinking, messageAdded]);
 
+  const handleSessionClick = (session: any) => {
+    console.log(session);
+    setMessages(session?.messages);
+    setSessionID(session?.sessionID);
+    setShowHistoryModal(false); // Close the history modal
+  };
+
+  const handleNewChat = () => {
+    setMessages([]); // Clear the messages
+    setSessionID(generateSessionID()); // Generate a new session ID
+    setShowHistoryModal(false); // Close the history modal
+  };
+
   return (
     <div style={{ height: "100vh" }}>
-      <Header />
+      <Header onViewHistory={() => setShowHistoryModal(!showHistoryModal)} />
+      {showHistoryModal && (
+        <div className={`history-modal ${theme}`} style={{ display: "block" }}>
+          <div className="history-header">
+            <h2>Chat History</h2>
+            <button onClick={() => setShowHistoryModal(false)}>Close</button>
+          </div>
+          <div className="history-content">
+            {/* New Chat option */}
+            <div className="history-session new-chat" onClick={handleNewChat}>
+              <h4>New Chat</h4>
+            </div>
+            {/* Existing sessions */}
+            {chatHistory.map((session, index) => (
+              <div
+                key={index}
+                className="history-session"
+                onClick={() => handleSessionClick(session)}>
+                <h4>{session.createdAt?.toLocaleString()}</h4>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       <div className="chat-wrapper">
         <div className="chat-container" ref={chatContainerRef}>
           {messages.map((message, index) => (
@@ -139,9 +131,6 @@ const ChatView: React.FC = () => {
                   ? "bot-message-entering"
                   : ""
               }`}>
-              {/* <div className={`${message.type}-label label`}>
-                {message.type.toUpperCase()}
-              </div> */}
               <div className={`${message.type}-message`}>
                 {typeof message.content === "string"
                   ? message.content
@@ -151,7 +140,6 @@ const ChatView: React.FC = () => {
           ))}
           {botIsThinking && (
             <div className="message-wrapper bot-message-wrapper">
-              {/* <div className="bot-label label">BOT</div> */}
               <div className="bot-message">
                 <div className="loading-dots">
                   <span>.</span>

@@ -52,77 +52,38 @@ app.post("/store-message", async (req, res) => {
   }
 });
 
-// app.post("/store-message", async (req, res) => {
-//   const db = getDB();
-//   const { messages, userId, session_id } = req.body; // Ensure you're getting the session_id
-
-//   console.log("store message called");
-
-//   try {
-//     const result = await db.collection("chatConversations").updateOne(
-//       { userId, bot_id: "CLAUDE", "messages.session_id": session_id },
-//       {
-//         $set: { messages: messages },
-//       },
-//       { upsert: true } // This option will insert a new conversation if one with the given session_id doesn't exist
-//     );
-
-//     if (result.matchedCount === 0) {
-//       // Handle the case where no document matched the filter
-//       await db.collection("chatConversations").insertOne({
-//         userId,
-//         bot_id: "CLAUDE",
-//         messages: messages,
-//       });
-//     }
-
-//     console.log("Message stored successfully!");
-//     res.send("Message stored successfully!");
-//   } catch (error) {
-//     res.status(500).send("Error storing message: " + error.message);
-//   }
-// });
-
 // Fetch all chat messages for the authenticated user
-app.get("/fetch-messages", async (req, res) => {
+app.get("/fetch-messages/:userId", async (req, res) => {
   const db = getDB();
+  const userId = req.params.userId; // Extract userId from URL parameter
 
-  // If user not authenticated
-  // if (!req.user) {
-  //   return res.status(401).send("Unauthorized");
-  // }
+  if (!userId) {
+    return res.status(400).send("User ID is required");
+  }
 
   try {
-    const messages = await db
+    const conversations = await db
       .collection("chatMessages")
-      .find({ userId: req.user._id })
+      .find({ user_id: userId })
+      .sort({ "messages.timestamp": 1 }) // Sorting by timestamp
       .toArray();
-    res.json(messages);
+
+    let chatHistory = conversations.map((conv) => {
+      return {
+        sessionID: conv.sessionID,
+        messages: conv.messages,
+      };
+    });
+
+    chatHistory.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+
+    res.json(chatHistory);
   } catch (error) {
     res.status(500).send("Error fetching messages: " + error.message);
   }
 });
 
-// A route to insert a sample document into the "test" collection
-app.post("/insert-test", async (req, res) => {
-  const db = getDB();
-  try {
-    await db
-      .collection("test")
-      .insertOne({ name: "Sample", timestamp: new Date() });
-    res.send("Document inserted successfully!");
-  } catch (error) {
-    res.status(500).send("Error inserting document: " + error.message);
-  }
-});
-
-// A route to fetch all documents from the "test" collection
-app.get("/fetch-test", async (req, res) => {
-  const db = getDB();
-  try {
-    const documents = await db.collection("test").find({}).toArray();
-    res.json(documents);
-  } catch (error) {
-    res.status(500).send("Error fetching documents: " + error.message);
-  }
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Something went wrong!" });
 });

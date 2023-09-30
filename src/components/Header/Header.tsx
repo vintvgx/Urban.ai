@@ -36,7 +36,7 @@ const Header: React.FC<HeaderProps> = ({ onViewHistory }) => {
 
   return (
     <div className={`header ${theme}`}>
-      <BiMenuAltLeft size={25} />
+      <BiMenuAltLeft size={25} onClick={onViewHistory} />
       <h2 style={{ cursor: "pointer" }} onClick={handleNavigateToRoot}>
         Urban.AI
       </h2>

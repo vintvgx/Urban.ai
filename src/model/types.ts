@@ -2,7 +2,8 @@ export interface IMessage {
   type: "user" | "bot";
   content: string | object;
   timestamp?: string | null;
-  session_id: string;
+  sessionID: string;
+  createdAt?: Date; // Add this line
 }
 
 export interface MessagesState {
