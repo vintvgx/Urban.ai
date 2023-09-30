@@ -28,7 +28,7 @@ const ChatView: React.FC = () => {
 
     console.log("FETCH MESSAGES CALLED");
     fetchData();
-  }, []);
+  });
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
