@@ -10,13 +10,15 @@ export default function LandingScreen() {
   const { goToChatView } = LandingScreenController({ navigate });
 
   return (
-    <div className="container">
+    <div className="flex flex-col h-screen">
       <Header />
-      <div className="center-screen">
-        <h2>Welcome to</h2>
-        <h1 className="large-title">Urban.AI</h1>
-        <p className="sub-label">Where we ain't politically correct</p>
-        <button className="chat-button" onClick={goToChatView}>
+      <div className=" flex-grow flex flex-col justify-center ">
+        <h2 className="mb-0">Welcome to</h2>
+        <h1 className=" text-8xl mt-3 ">Urban.AI</h1>
+        <p className=" text-gray-600 mt-5">
+          Where we ain't politically correct
+        </p>
+        <button className=" mt-5 text-base " onClick={goToChatView}>
           Chat Now
         </button>
       </div>

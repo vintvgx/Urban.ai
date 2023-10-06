@@ -5,26 +5,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "../../firebase/firebase.config";
-
-interface AuthPayload {
-  email: string;
-  password: string;
-}
-
-interface User {
-  uid: string;
-  email: string | null;
-  displayName: string | null;
-  photoURL: string | null;
-  phoneNumber: string | null;
-}
-
-interface UserState {
-  user: null | User;
-  isLoggedIn: boolean;
-  isLoading: boolean;
-  error: undefined | string;
-}
+import { AuthPayload, User, UserState } from "../../model/types";
 
 const initialState: UserState = {
   user: null,

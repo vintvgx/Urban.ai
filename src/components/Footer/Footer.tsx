@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
       <p>© 2023 COMMUNITE. All Rights Reserved.</p>
       <div className="toggle-switch" onClick={toggleTheme}>
         <div className={`slider ${theme}`}></div>
-      </div>{" "}
+      </div>
     </div>
   );
 };

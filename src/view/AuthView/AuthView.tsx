@@ -25,7 +25,7 @@ const AuthView: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -61,6 +61,7 @@ const AuthView: React.FC = () => {
   };
 
   const loginGoogleUser = async () => {
+    dispatch(clearError());
     try {
       const response = await signInWithGooglePopup();
 
@@ -85,6 +86,7 @@ const AuthView: React.FC = () => {
   };
 
   const loginFacebookUser = async () => {
+    dispatch(clearError());
     try {
       const response = await signInWithFacebookPopup();
 
@@ -133,13 +135,19 @@ const AuthView: React.FC = () => {
               type="email"
               placeholder="Email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                dispatch(clearError());
+              }}
             />
             <input
               type="password"
               placeholder="Password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                dispatch(clearError()); // Clear error when user starts typing
+              }}
             />
             {error && <p style={{ color: "red", fontSize: "12px" }}>{error}</p>}
             <button className={theme} style={{ width: "100%" }} type="submit">

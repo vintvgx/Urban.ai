@@ -9,6 +9,7 @@ import {
 } from "../../controller/ChatController";
 import "./ChatView.css";
 import { useTheme } from "../../theme/themeContext";
+import ChatHistoryModal from "../../components/ChatHistoryModal/ChatHistoryModal";
 
 const ChatView: React.FC = () => {
   const [input, setInput] = useState<string>("");
@@ -21,6 +22,10 @@ const ChatView: React.FC = () => {
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const user = useAppSelector((state) => state.user);
   const [sessionID, setSessionID] = useState<string>(generateSessionID());
+  const [selectedSessionID, setSelectedSessionID] = useState<string | null>(
+    null
+  );
+
   const { theme } = useTheme();
 
   useEffect(() => {
@@ -116,6 +121,7 @@ const ChatView: React.FC = () => {
     setMessages([]); // Clear the messages
     setSessionID(generateSessionID()); // Generate a new session ID
     setShowHistoryModal(false); // Close the history modal
+    setSelectedSessionID(null);
   };
 
   const shakeInput = () => {
@@ -131,29 +137,20 @@ const ChatView: React.FC = () => {
 
   return (
     <div style={{ height: "100vh" }}>
-      <Header onViewHistory={() => setShowHistoryModal(!showHistoryModal)} />
+      <Header
+        onViewHistory={() => setShowHistoryModal(!showHistoryModal)}
+        displayHistory={true}
+      />
       {showHistoryModal && (
-        <div className={`history-modal ${theme}`} style={{ display: "block" }}>
-          <div className="history-header">
-            <h2>Chat History</h2>
-            <button onClick={() => setShowHistoryModal(false)}>Close</button>
-          </div>
-          <div className="history-content">
-            {/* New Chat option */}
-            <div className="history-session new-chat" onClick={handleNewChat}>
-              <h4>New Chat</h4>
-            </div>
-            {/* Existing sessions */}
-            {chatHistory.map((session, index) => (
-              <div
-                key={index}
-                className="history-session"
-                onClick={() => handleSessionClick(session)}>
-                <h4>{session.createdAt?.toLocaleString()}</h4>
-              </div>
-            ))}
-          </div>
-        </div>
+        <ChatHistoryModal
+          theme={theme}
+          chatHistory={chatHistory}
+          onSessionClick={handleSessionClick}
+          onNewChat={handleNewChat}
+          onClose={() => setShowHistoryModal(false)}
+          selectedSessionID={selectedSessionID}
+          onSelectSession={(sessionID) => setSelectedSessionID(sessionID)}
+        />
       )}
       <div className="chat-wrapper">
         <div className="chat-container" ref={chatContainerRef}>

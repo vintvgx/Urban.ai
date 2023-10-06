@@ -8,13 +8,13 @@
   z-index: 1000;
 } */
 
-.header.dark {
-  background-color: rgba(0, 0, 0, 0.8);  /* for dark theme */
+/* .header.dark {
+  background-color: rgba(0, 0, 0, 0.8); 
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  backdrop-filter: blur(20px); /* Apply blur */
+  backdrop-filter: blur(20px);
   z-index: 1000;
 }
 
@@ -24,9 +24,9 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  backdrop-filter: blur(20px); /* Apply blur */
+  backdrop-filter: blur(20px); 
   z-index: 1000;
-}
+} */
 
 h3.light {
   color:rgba(0, 0, 0, 0.8)

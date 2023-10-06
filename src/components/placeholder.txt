@@ -1,0 +1,66 @@
+ return (
+    <div className="h-screen">
+      <Header
+        onViewHistory={() => setShowHistoryModal(!showHistoryModal)}
+        displayHistory={true}
+      />
+      {showHistoryModal && (
+        <div className={`fixed top-0 left-0 h-screen w-1/6 overflow-auto border-r ${theme === 'light' ? 'bg-f2f2f2' : 'bg-2c2c2c'}`}>
+          <div className="flex justify-between p-3 border-b">
+            <h2>Chat History</h2>
+            <button onClick={() => setShowHistoryModal(false)}>Close</button>
+          </div>
+          <div className="p-3">
+            <div className="p-1 cursor-pointer border-b hover:bg-e6e6e6" onClick={handleNewChat}>
+              <h4 className="text-sm">New Chat</h4>
+            </div>
+            {chatHistory.map((session, index) => (
+              <div
+                key={index}
+                className="p-1 cursor-pointer border-b hover:bg-e6e6e6"
+                onClick={() => handleSessionClick(session)}>
+                <h4 className="text-sm">{session.createdAt?.toLocaleString()}</h4>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      <div className="max-w-screen-xl mx-auto p-5 flex flex-col h-[85vh] relative">
+        <div className="flex-col max-h-[70vh] overflow-y-auto gap-4 scrollbar-hide">
+          {messages.map((message, index) => (
+            <div
+              key={index}
+              className={`flex items-center mb-4 ${message.type === 'user' ? 'flex-start' : 'flex-end'} ${message.type === 'user' ? 'user-message-entering' : message.type === 'bot' ? 'bot-message-entering' : ''}`}>
+              <div className={`max-w-[80%] p-3 ${message.type === 'user' ? 'text-gray-500 italic' : 'text-right'}`}>
+                {typeof message.content === "string" ? message.content : JSON.stringify(message.content)}
+              </div>
+            </div>
+          ))}
+          {botIsThinking && (
+            <div className="flex items-center justify-end">
+              <div className="loading-dots flex space-x-1">
+                <span>.</span>
+                <span>.</span>
+                <span>.</span>
+              </div>
+            </div>
+          )}
+        </div>
+        <textarea
+          autoFocus
+          rows={1}
+          value={input}
+          onKeyDown={handleKeyDown}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Type your message..."
+          className="w-full p-4 mt-4 border rounded-lg outline-none resize-none text-gray-500 bg-opacity-10"
+          style={{
+            position: 'absolute',
+            bottom: `${inputAreaBottom}px`
+          }}
+        />
+      </div>
+    </div>
+  );
+};
+
