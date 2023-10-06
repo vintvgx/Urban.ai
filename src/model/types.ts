@@ -16,7 +16,22 @@ export interface ITypeWriterEffect {
   typingSpeed: number;
 }
 
-export interface Pal {
-  imageSrc: string;
-  altDescription: string;
+export interface User {
+  uid: string | null;
+  email: string | null;
+  displayName: string | null;
+  photoURL: string | null;
+  phoneNumber: string | null;
+}
+
+export interface UserState {
+  user: null | User;
+  isLoggedIn: boolean;
+  isLoading: boolean;
+  error: undefined | null | string;
+}
+
+export interface AuthPayload {
+  email: string;
+  password: string;
 }
