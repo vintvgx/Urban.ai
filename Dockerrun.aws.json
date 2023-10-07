@@ -1,5 +1,5 @@
 {
-    "AWSEBDockerrunVersion": 2,
+    "AWSEBDockerrunVersion": 3,
     "volumes": [
       {
         "name": "backend",
@@ -24,7 +24,7 @@
             "value": "production"
           }
         ],
-        "memory": 128,
+        "memory": 512,
         "portMappings": [
           {
             "hostPort": 4000,
@@ -47,7 +47,7 @@
             "value": "production"
           }
         ],
-        "memory": 128,
+        "memory": 512,
         "portMappings": [
           {
             "hostPort": 80,
