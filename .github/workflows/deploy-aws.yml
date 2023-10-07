@@ -31,7 +31,7 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: Urban.ai
+          application_name: Urbanai
           environment_name: Urbanai-env
           version_label: ${{ github.sha }}
           existing_bucket_name: elasticbeanstalk-us-east-1-408023401351
