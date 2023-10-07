@@ -1,0 +1,7 @@
+# Copy files from local to Droplet
+  scp -r /Users/vintvgx/Desktop/bandit.studios/studio.code/REACT/urban.ai/ root@165.22.44.225:/var/www/urban.ai/
+
+# Connect to Droplet thru terminal 
+  ssh root@165.22.44.225
+
+# 
