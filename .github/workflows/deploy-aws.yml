@@ -1,4 +1,4 @@
-name: Deploy React to AWS
+name: Deploy to AWS
 
 on:
   push:
@@ -25,6 +25,9 @@ jobs:
       - name: List Application Versions
         run: |
           aws elasticbeanstalk describe-application-versions --application-name Urban.ai
+
+      - name: Wait for a minute
+        run: sleep 60
 
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v21
