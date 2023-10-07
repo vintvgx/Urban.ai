@@ -1,0 +1,69 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "volumes": [
+      {
+        "name": "backend",
+        "host": {
+          "sourcePath": "/var/app/current/backend"
+        }
+      },
+      {
+        "name": "frontend",
+        "host": {
+          "sourcePath": "/var/app/current"
+        }
+      }
+    ],
+    "containerDefinitions": [
+      {
+        "name": "backend",
+        "image": "vintvgx/backend:latest",
+        "environment": [
+          {
+            "name": "NODE_ENV",
+            "value": "production"
+          }
+        ],
+        "memory": 128,
+        "portMappings": [
+          {
+            "hostPort": 4000,
+            "containerPort": 4000
+          }
+        ],
+        "mountPoints": [
+          {
+            "sourceVolume": "backend",
+            "containerPath": "/app"
+          }
+        ]
+      },
+      {
+        "name": "frontend",
+        "image": "vintvgx/frontend:latest",
+        "environment": [
+          {
+            "name": "NODE_ENV",
+            "value": "production"
+          }
+        ],
+        "memory": 128,
+        "portMappings": [
+          {
+            "hostPort": 80,
+            "containerPort": 3000
+          }
+        ],
+        "mountPoints": [
+          {
+            "sourceVolume": "frontend",
+            "containerPath": "/app"
+          }
+        ],
+        "links": [
+          "backend"
+        ]
+      }
+    ]
+  }
+  
