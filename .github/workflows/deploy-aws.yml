@@ -1,17 +1,30 @@
 name: Deploy React to AWS
+
 on:
   push:
     branches:
       - "Main"
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
 
       - name: Generate deployment package
         run: zip -r deploy.zip . -x '*.git*'
+
+      - name: Configure AWS CLI
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.region us-east-1
+
+      - name: List Application Versions
+        run: |
+          aws elasticbeanstalk describe-application-versions --application-name Urban.ai
 
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v21
