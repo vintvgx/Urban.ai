@@ -1,25 +1,22 @@
-# Dockerfile Frontend
+# Build React app with Node.js
+FROM node:16 AS build
 
-# Use NodeJS v16
-FROM node:16  
+WORKDIR /app
 
-# Working directory inside the container
-WORKDIR /app 
+COPY package*.json ./
 
-# Copy package.json and package-lock.json
-COPY package*.json ./  
+RUN npm install
 
-# Install dependencies
-RUN npm install  
+COPY . . 
 
-# Copy other source code files
-COPY . .  
+RUN npm run build --prod
 
-#Expose backend API port
-EXPOSE 3000
+# Setup Nginx
+FROM nginx:stable-alpine
 
-# Define environment variable
-ENV NAME URBAN_FRONT
+COPY --from=build /app/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# Start the client
-CMD ["npm", "start"]  
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
