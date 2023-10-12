@@ -1,0 +1,27 @@
+# Dockerfile Production Frontend + Caddy
+
+# Use NodeJS v16
+FROM node:16  
+
+# Working directory inside the container
+WORKDIR /app 
+
+# Copy package.json and package-lock.json
+COPY package*.json ./  
+
+# Install dependencies
+RUN npm install  
+
+# Copy other source code files
+COPY . .  
+
+RUN npm build
+
+## Copy into Secondary Caddy stage
+FROM caddy:2.7.4-apline
+
+# Copy Caddyfile
+ARG CADDYFILE
+COPY $CADDYFILE /etc/caddy/Caddyfile
+
+
