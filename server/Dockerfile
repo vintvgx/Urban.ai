@@ -21,7 +21,6 @@ EXPOSE 4000
 # Define environment variable
 ENV NAME URBAN_BACK
 
-# Build Docker Image
-RUN npm build    
+# Start the server
+CMD ["npm", "start"]   
 
-# Copy into secondary Caddy stage

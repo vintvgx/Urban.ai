@@ -1,2 +1,2 @@
 build:
-	docker build -t urban-backend .
+	docker build -t vintvgx/urban-ai-server .

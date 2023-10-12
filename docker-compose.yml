@@ -1,17 +1,17 @@
 version: '3'
 services:
   frontend:
-      image: vintvgx/frontend:latest
+      image: vintvgx/urban-ai-client:latest
       restart: unless-stopped
       ports: 
-        - "80:80"
+        - "3000:3000"
         - "443:443"
       environment:
         - NODE_ENV=production
       depends_on: 
         - backend
   backend:
-    image: vintvgx/backend:latest
+    image: vintvgx/urban-ai-server:latest
     restart: unless-stopped
     ports: 
       - "4000:4000"

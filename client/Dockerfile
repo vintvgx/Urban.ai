@@ -21,5 +21,5 @@ EXPOSE 3000
 # Define environment variable
 ENV NAME URBAN_FRONT
 
-# Start the server
+# Start the client
 CMD ["npm", "start"]  
