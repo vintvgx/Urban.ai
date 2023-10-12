@@ -1,7 +1,7 @@
 # Dockerfile Backend
 
 # Use NodeJS v16
-FROM node:16  
+FROM node:18.17.1
 
 # Working directory inside the container
 WORKDIR /app 
