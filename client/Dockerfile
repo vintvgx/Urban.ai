@@ -1,5 +1,5 @@
 # Build React app with Node.js
-FROM node:16 AS build
+FROM node:18.17.1 AS build
 
 WORKDIR /app
 
