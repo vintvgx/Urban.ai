@@ -3,6 +3,8 @@ import { IMessage } from "../model/types";
 import { urban_query } from "../stack.ai/urban-ai-query";
 import { extractTimestampFromSessionID } from "../utils/functions";
 
+const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:8080";
+
 export const generateSessionID = () => {
   return `${new Date().getTime()}-${Math.random().toString(36).substr(2, 9)}`;
 };
@@ -10,7 +12,7 @@ export const generateSessionID = () => {
 export const fetchChatHistory = async (user: any) => {
   try {
     const response = await fetch(
-      `http://localhost:8080/fetch-messages/${user.user?.uid}`
+      `${SERVER_URL}/fetch-messages/${user.user?.uid}`
     );
 
     if (!response.ok) {
@@ -63,7 +65,7 @@ export const handleSendMessage = async (
   if (user.isLoggedIn) {
     try {
       // Save the messages (both user and bot)
-      await fetch("http://localhost:8080/store-message", {
+      await fetch(`${SERVER_URL}/store-message`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
