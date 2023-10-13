@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+
 # Urban.ai Chatbot
 
 ## Description
@@ -31,8 +32,8 @@ _Coming Soon_
 
 ## Contributing
 
-Feel free to contribute to the expansion and improvement of `Urban.ai`. Create a pull request or open an issue to discuss potential changes/additions.
-=======
+# Feel free to contribute to the expansion and improvement of `Urban.ai`. Create a pull request or open an issue to discuss potential changes/additions.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -79,4 +80,100 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
->>>>>>> initial
+
+> > > > > > > initial
+
+urban.ai
+├─ client
+│ ├─ .firebase
+│ │ ├─ hosting.YnVpbGQ.cache
+│ │ └─ hosting.cHVibGlj.cache
+│ ├─ Caddyfile.local
+│ ├─ Dockerfile
+│ ├─ Makefile
+│ ├─ database.rules.json
+│ ├─ firebase.json
+│ ├─ firestore.indexes.json
+│ ├─ firestore.rules
+│ ├─ nginx.conf
+│ ├─ package-lock.json
+│ ├─ package.json
+│ ├─ postcss.config.js
+│ ├─ public
+│ │ ├─ NGINX Dockerfile.png
+│ │ ├─ NGINX config.png
+│ │ ├─ favicon.ico
+│ │ ├─ index.html
+│ │ ├─ logo192.png
+│ │ ├─ logo512.png
+│ │ ├─ manifest.json
+│ │ └─ robots.txt
+│ ├─ src
+│ │ ├─ App.css
+│ │ ├─ App.test.tsx
+│ │ ├─ App.tsx
+│ │ ├─ components
+│ │ │ ├─ ChatHistoryModal
+│ │ │ │ ├─ ChatHistoryModal.css
+│ │ │ │ └─ ChatHistoryModal.tsx
+│ │ │ ├─ Footer
+│ │ │ │ ├─ Footer.css
+│ │ │ │ └─ Footer.tsx
+│ │ │ ├─ Header
+│ │ │ │ ├─ Header.css
+│ │ │ │ └─ Header.tsx
+│ │ │ ├─ SocialCustomButton.tsx
+│ │ │ └─ placeholder.txt
+│ │ ├─ controller
+│ │ │ ├─ ChatController.ts
+│ │ │ └─ LandingScreenController.ts
+│ │ ├─ firebase
+│ │ │ └─ firebase.config.ts
+│ │ ├─ index.css
+│ │ ├─ index.tsx
+│ │ ├─ logo.svg
+│ │ ├─ model
+│ │ │ └─ types.ts
+│ │ ├─ react-app-env.d.ts
+│ │ ├─ redux
+│ │ │ ├─ slices
+│ │ │ │ └─ authSlice.ts
+│ │ │ └─ store.ts
+│ │ ├─ reportWebVitals.ts
+│ │ ├─ setupTests.ts
+│ │ ├─ stack.ai
+│ │ │ └─ urban-ai-query.ts
+│ │ ├─ tailwind.css
+│ │ ├─ theme
+│ │ │ ├─ themeContext.tsx
+│ │ │ └─ themeHandler.tsx
+│ │ ├─ utils
+│ │ │ └─ functions.ts
+│ │ └─ view
+│ │ ├─ AuthView
+│ │ │ ├─ AuthView.css
+│ │ │ └─ AuthView.tsx
+│ │ ├─ ChatView
+│ │ │ ├─ ChatView.css
+│ │ │ └─ ChatView.tsx
+│ │ └─ LandingScreen
+│ │ ├─ LandingScreen.css
+│ │ └─ LandingScreen.tsx
+│ ├─ tailwind.config.js
+│ ├─ tsconfig.json
+│ └─ workflows
+│ ├─ deploy-aws.yml
+│ ├─ firebase-hosting-merge.yml
+│ └─ firebase-hosting-pull-request.yml
+├─ docker-compose.yml
+└─ server
+├─ .dockerignore
+├─ Dockerfile
+├─ Makefile
+├─ config
+│ └─ dev.env
+├─ db.js
+├─ mongoose.js
+├─ package-lock.json
+├─ package.json
+└─ server.js

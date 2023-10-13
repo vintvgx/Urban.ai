@@ -1,12 +1,14 @@
 const express = require("express");
-
+const path = require("path");
 const { connectDB, getDB } = require("./db");
-
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const app = express();
 require("dotenv").config({ path: "./config/dev.env" });
-const apiPort = 4000;
+
+const app = express();
+
+// Serve React App as static
+app.use(express.static(path.join(__dirname, "client/build")));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
@@ -15,16 +17,6 @@ app.use(bodyParser.json());
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
-
-connectDB()
-  .then(() => {
-    app.listen(apiPort, () => {
-      console.log(`Server running on port ${apiPort}`);
-    });
-  })
-  .catch((error) => {
-    console.error("Failed to connect to MongoDB", error);
-  });
 
 app.post("/store-message", async (req, res) => {
   const db = getDB();
@@ -89,7 +81,25 @@ app.get("/fetch-messages/:userId", async (req, res) => {
   }
 });
 
+// If no API routes are hit, send the React app
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build/index.html"));
+});
+
+//  Error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: "Something went wrong!" });
 });
+
+// Server listener
+const apiPort = process.env.PORT || 4000;
+connectDB()
+  .then(() => {
+    app.listen(apiPort, () => {
+      console.log(`Server running on port ${apiPort}`);
+    });
+  })
+  .catch((error) => {
+    console.error("Failed to connect to MongoDB", error);
+  });
