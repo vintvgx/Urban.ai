@@ -13,7 +13,7 @@ export default function LandingScreen() {
     <div className="flex flex-col h-screen">
       <Header />
       <div className=" flex-grow flex flex-col justify-center ">
-        <h2 className="mb-0">Welcome to</h2>
+        <h2 className="mb-0">Welcome to TEST</h2>
         <h1 className=" text-8xl mt-3 ">Urban.AI</h1>
         <p className=" text-gray-600 mt-5">
           Where we ain't politically correct
