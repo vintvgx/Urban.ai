@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Header from "../../components/Header/Header";
 import { IMessage } from "../../model/types";
 import { useAppSelector } from "../../redux/store";
@@ -28,24 +28,23 @@ const ChatView: React.FC = () => {
 
   const { theme } = useTheme();
 
-  useEffect(() => {
-    if (!user.user) return;
-
-    console.log("FETCH MESSAGES CALLED");
-    fetchData();
-  });
-
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       e.preventDefault();
       handleSubmit(e as unknown as React.FormEvent);
     }
+    fetchData();
   };
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     const data = await fetchChatHistory(user);
     setChatHistory(data);
-  };
+  }, [user]);
+
+  useEffect(() => {
+    if (!user.user) return;
+    fetchData();
+  }, [fetchData, user.user]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -141,7 +140,7 @@ const ChatView: React.FC = () => {
         onViewHistory={() => setShowHistoryModal(!showHistoryModal)}
         displayHistory={true}
       />
-      {showHistoryModal && (
+      {showHistoryModal ? (
         <ChatHistoryModal
           theme={theme}
           chatHistory={chatHistory}
@@ -151,7 +150,7 @@ const ChatView: React.FC = () => {
           selectedSessionID={selectedSessionID}
           onSelectSession={(sessionID) => setSelectedSessionID(sessionID)}
         />
-      )}
+      ) : null}
       <div className="chat-wrapper">
         <div className="chat-container" ref={chatContainerRef}>
           {messages.map((message, index) => (

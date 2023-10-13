@@ -10,8 +10,9 @@ export const generateSessionID = () => {
 export const fetchChatHistory = async (user: any) => {
   try {
     const response = await fetch(
-      `http://localhost:4000/fetch-messages/${user.user?.uid}`
+      `http://localhost:8080/fetch-messages/${user.user?.uid}`
     );
+
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
@@ -62,7 +63,7 @@ export const handleSendMessage = async (
   if (user.isLoggedIn) {
     try {
       // Save the messages (both user and bot)
-      await fetch("http://localhost:4000/store-message", {
+      await fetch("http://localhost:8080/store-message", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
