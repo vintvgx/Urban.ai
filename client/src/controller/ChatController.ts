@@ -3,8 +3,12 @@ import { IMessage } from "../model/types";
 import { urban_query } from "../stack.ai/urban-ai-query";
 import { extractTimestampFromSessionID } from "../utils/functions";
 
-const SERVER_URL = process.env.REACT_APP_SERVER_URL; //|| "http://localhost:4000";
-// const SERVER_URL = "https://www.urbanai.info"; //
+const SERVER_URL_2 =
+  process.env.REACT_APP_SERVER_URL || "http://localhost:4000";
+
+const SERVER_URL = "https://urban-ai-app-4dpgega65a-ue.a.run.app";
+
+console.log(`Server URL: ${SERVER_URL_2}`);
 
 export const generateSessionID = () => {
   return `${new Date().getTime()}-${Math.random().toString(36).substr(2, 9)}`;
