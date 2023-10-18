@@ -14,7 +14,7 @@ export default function LandingScreen() {
       <Header />
       <div className=" flex-grow flex flex-col justify-center ">
         <h2 className="mb-0">Welcome to</h2>
-        <h1 className=" text-8xl mt-3 ">Urban.AI</h1>
+        <h1 className=" text-8xl mt-3 ">Urban.AI2</h1>
         <p className=" text-gray-600 mt-5">
           Where we ain't politically correct
         </p>
