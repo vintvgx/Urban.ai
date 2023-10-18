@@ -32,12 +32,10 @@ Welcome to `Urban.ai`, an innovative chatbot designed to bring you a unique conv
 - Firebase (Hosting and User Authorization)
 - Redux Toolkit (State Management)
 - Express (Backend)
-- MongoDB and MongoDB Atlas (Database)
+- MongoDB Atlas (Database)
 - CORS (Cross-Origin Resource Sharing)
 - Stack AI (Response Generation)
 
 # Visit site
 
 https://urbanai.info/
-
-> > > > > > > initial
