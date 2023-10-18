@@ -20,7 +20,7 @@ COPY server/ ./
 COPY --from=client-build /app/client/build /app/server/client/build
 
 # Expose the API server port
-EXPOSE 4000
+EXPOSE 8080
 
 # Start the server
 CMD ["npm", "start"]  
