@@ -3,14 +3,14 @@ import { IMessage } from "../model/types";
 import { urban_query } from "../stack.ai/urban-ai-query";
 import { extractTimestampFromSessionID } from "../utils/functions";
 
-const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:8080";
-console.log("SERVER_URL:", SERVER_URL);
+const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:4000";
 
 export const generateSessionID = () => {
   return `${new Date().getTime()}-${Math.random().toString(36).substr(2, 9)}`;
 };
 
 export const fetchChatHistory = async (user: any) => {
+  console.log("SERVER_URL:", SERVER_URL);
   try {
     const response = await fetch(
       `${SERVER_URL}/fetch-messages/${user.user?.uid}`
