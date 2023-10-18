@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 # Urban.ai Chatbot
 
 ## Description
