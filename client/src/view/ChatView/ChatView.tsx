@@ -139,6 +139,7 @@ const ChatView: React.FC = () => {
       <Header
         onViewHistory={() => setShowHistoryModal(!showHistoryModal)}
         displayHistory={true}
+        setPadding={false}
       />
       {showHistoryModal ? (
         <ChatHistoryModal
