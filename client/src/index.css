@@ -535,6 +535,9 @@ video {
 .p-3 {
   padding: 0.75rem;
 }
+.text-left {
+  text-align: left;
+}
 .text-8xl {
   font-size: 6rem;
   line-height: 1;
@@ -546,6 +549,9 @@ video {
 .text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem;
+}
+.font-bold {
+  font-weight: 700;
 }
 .font-extralight {
   font-weight: 200;

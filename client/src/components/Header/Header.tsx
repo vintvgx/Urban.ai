@@ -9,9 +9,14 @@ import { getUserInitials } from "../../utils/functions";
 interface HeaderProps {
   onViewHistory?: () => void; // New prop to handle view history
   displayHistory?: boolean;
+  setPadding?: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ onViewHistory, displayHistory }) => {
+const Header: React.FC<HeaderProps> = ({
+  onViewHistory,
+  displayHistory,
+  setPadding,
+}) => {
   const navigate = useNavigate();
   const { theme } = useTheme();
 
@@ -34,38 +39,47 @@ const Header: React.FC<HeaderProps> = ({ onViewHistory, displayHistory }) => {
   };
 
   return (
-    <div className={` flex justify-between items-center p-3 header ${theme}`}>
-      {displayHistory ? (
-        <BiMenuAltLeft size={25} onClick={onViewHistory} />
-      ) : (
-        <h2 style={{ cursor: "pointer" }} onClick={handleNavigateToRoot}>
-          Urban.AI
-        </h2>
-      )}
-      <div>
-        {user.isLoggedIn ? (
-          <div
-            className="flex items-center justify-center rounded-full w-12 h-12 shadow-lg"
-            style={{
-              boxShadow:
-                theme === "light"
-                  ? "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
-                  : "0 4px 6px -1px rgba(255, 255, 255, 0.1), 0 2px 4px -1px rgba(255, 255, 255, 0.06)",
-            }}>
-            <span
-              className={`text-base font-extralight tracking-wide ${theme} === 'dark' ? 'text-white' : 'text-gray-800`}>
-              {getUserInitials(user.user)}
-            </span>
+    <div
+      className={`header-container ${setPadding ? "padding" : "no-padding"}`}>
+      <div
+        className={`header-content ${
+          setPadding ? "pad-content" : "no-padding"
+        }`}>
+        {displayHistory ? (
+          <div className="left-content">
+            <BiMenuAltLeft size={25} onClick={onViewHistory} />
           </div>
         ) : (
-          <div>
-            <span
-              className="mr-2 text-xl cursor-pointer hover:text-gray-600 transition duration-200"
-              onClick={handleNavigateToAuthView}>
-              Login
-            </span>
-          </div>
+          <>
+            <img
+              src={theme === "light" ? "./LOGOB.png" : "./LOGOW.png"}
+              alt="Urban.AI Logo"
+              style={{ cursor: "pointer", width: "55px" }}
+              onClick={handleNavigateToRoot}
+            />
+            <span className="nav-item">ABOUT</span>
+            <span className="nav-item">LOGIN</span>
+          </>
         )}
+        <div className="right-content">
+          {user.isLoggedIn ? (
+            <div className="user-avatar">
+              <span
+                className={`text-base font-extralight tracking-wide ${theme} === 'dark' ? 'text-white' : 'text-gray-800`}>
+                {getUserInitials(user.user)}
+              </span>
+            </div>
+          ) : (
+            <div style={{ justifyContent: "flex-end" }}>
+              <span
+                className="join-btn"
+                style={{ color: theme === "light" ? "black" : "white" }}
+                onClick={handleNavigateToAuthView}>
+                JOIN
+              </span>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
