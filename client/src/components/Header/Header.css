@@ -3,10 +3,6 @@
   justify-content: center;
 }
 
-.no-padding {
-  padding: 0px 25px
-}
-
 .padding {
   width: 100vw;
   display: flex;
@@ -16,7 +12,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 25px 0;
+  padding: 25px 25px;
   width: 100vw;
 }
 
@@ -46,6 +42,7 @@
   margin: 0 15px; /* This can be adjusted based on your preference */
   font-size: .8rem;
   color: rgb(169, 169, 169);
+  cursor: pointer;
 }
 
 .user-avatar {
