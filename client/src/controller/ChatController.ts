@@ -1,7 +1,10 @@
 // ChatController.ts
 import { IMessage } from "../model/types";
 import { urban_query } from "../stack.ai/urban-ai-query";
-import { extractTimestampFromSessionID } from "../utils/functions";
+import {
+  extractTimestampFromSessionID,
+  formatResponse,
+} from "../utils/functions";
 
 // const SERVER_URL = "http://localhost:4000";
 
@@ -53,7 +56,9 @@ export const handleSendMessage = async (
     "in-0": input,
   };
 
-  const response = await urban_query(data);
+  let response = await urban_query(data);
+
+  response = formatResponse(response);
 
   const botMessage: IMessage = {
     type: "bot",
