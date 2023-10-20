@@ -30,12 +30,20 @@ const Header: React.FC<HeaderProps> = ({
     }
   }, [user]);
 
-  const handleNavigateToAuthView = () => {
-    navigate("/auth");
+  const handleNavigateToLogin = () => {
+    navigate("/auth", { state: { isLogin: true } });
+  };
+
+  const handleNavigateToJoin = () => {
+    navigate("/auth", { state: { isLogin: false } });
   };
 
   const handleNavigateToRoot = () => {
     navigate("/");
+  };
+
+  const handleNavigateToAbout = () => {
+    navigate("/about");
   };
 
   return (
@@ -57,8 +65,12 @@ const Header: React.FC<HeaderProps> = ({
               style={{ cursor: "pointer", width: "55px" }}
               onClick={handleNavigateToRoot}
             />
-            <span className="nav-item">ABOUT</span>
-            <span className="nav-item">LOGIN</span>
+            <span className="nav-item" onClick={handleNavigateToAbout}>
+              ABOUT
+            </span>
+            <span className="nav-item" onClick={handleNavigateToLogin}>
+              LOGIN
+            </span>
           </>
         )}
         <div className="right-content">
@@ -74,7 +86,7 @@ const Header: React.FC<HeaderProps> = ({
               <span
                 className="join-btn"
                 style={{ color: theme === "light" ? "black" : "white" }}
-                onClick={handleNavigateToAuthView}>
+                onClick={handleNavigateToJoin}>
                 JOIN
               </span>
             </div>

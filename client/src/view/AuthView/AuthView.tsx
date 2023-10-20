@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
 import {
   login,
@@ -31,6 +31,15 @@ const AuthView: React.FC = () => {
   const navigate = useNavigate();
   const { isLoading, error } = useAppSelector((state) => state.user);
   const { theme } = useTheme(); // using the hook
+
+  const location = useLocation();
+
+  useEffect(() => {
+    const isLoginState = location.state as { isLogin: boolean };
+    if (isLoginState && isLoginState.isLogin !== undefined) {
+      setIsLogin(isLoginState.isLogin);
+    }
+  }, [location.state]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
