@@ -18,3 +18,8 @@ export const getUserInitials = (user: User | null): string => {
   }
   return "U"; // default initials if user or display name is not available
 };
+
+export function formatResponse(response: string) {
+  // Replace number-dot patterns with newline followed by the pattern
+  return response.replace(/(\d+\.)/g, "\n$1");
+}
