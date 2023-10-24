@@ -12,7 +12,7 @@ Welcome to `Urban.ai`, an innovative chatbot designed to bring you a unique conv
 
 - **Built with React & TypeScript:** Fast and responsive UI built using React and TypeScript for improved type safety and development experience.
 
-- **Firebase Hosting:** Hosted on Firebase for a reliable, scalable, and secure web hosting solution.
+- **Google Cloud Container:** Deployed on GCR (Google Container Registry), utilizing Google Cloud Container for continuous deployment, ensuring a scalable, secure, and dependable web hosting solution.
 
 - **User Authorization:** Utilize Firebase for user authentication and authorization.
 
