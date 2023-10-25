@@ -9,7 +9,6 @@
   
   .about-view {
     flex-grow: 1;
-
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,6 +16,7 @@
     height: 100%;
     width: 100vw;
     text-align: left;
+    margin-bottom: 100px; /* Add margin to create space between about-content and the footer */
   }
   
   .about-title-section {
@@ -100,12 +100,12 @@
   
     .about-content-section {
       flex-direction: column;
-      width: 85%;
+      width: 90%;
     }
   
     .left-column,
     .right-column {
-      width: 85%;
+      width: 90%;
     }
   
     .right-column {

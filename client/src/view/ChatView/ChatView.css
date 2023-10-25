@@ -41,9 +41,6 @@
   }
 }
 
-
-
-
 .chat-wrapper {
   max-width: 1200px;
   /* width: auto; */
@@ -194,6 +191,23 @@
     opacity: 1;
   }
 }
+
+.enter-to-submit {
+  opacity: 0;
+  position: absolute;
+  margin-top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  color: rgb(166, 166, 166); /* Choose a text color that matches your component's style */
+  font-size: 14px; /* Adjust the font size to match your component */
+  transition: opacity 0.3s; /* Add a transition for the opacity property */
+}
+
+.enter-to-submit.show {
+  opacity: 1; /* When the "show" class is applied, fade in by changing opacity to 1 */
+}
+
 
 /*  
  Bot message animation

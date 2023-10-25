@@ -22,15 +22,22 @@ const AboutView: React.FC = () => {
           <div className="right-column">
             <div className="about-content">
               <p>
-                URBAN.ai is a platform that uses artificial intelligence to
-                represent the urban environment. We use machine learning to
-                understand the urban environment and to create a digital
-                representation of it.
+                In a world where hip-hop culture generates billions of dollars
+                and plays a significant role in shaping the music industry and
+                popular culture, representation becomes paramount. The influence
+                of this vibrant and influential culture extends far beyond the
+                music charts. It permeates every facet of modern society, from
+                fashion to language, and serves as a vital expression of diverse
+                voices.
               </p>
-              <p>
-                We use this digital representation to create new urban
-                experiences and to help people make better decisions about the
-                urban environment.
+              <p style={{ marginTop: "20px" }}>
+                At Urban.ai, we recognize the importance of representing this
+                cultural phenomenon in a meaningful way. Our mission is to
+                provide a space for autonomous knowledge through language that
+                caters to a vast and diverse audience. We understand that slang
+                is not just an informal approach to communication; it is a
+                powerful medium and a unique form of expression that enables
+                freedom of speech and creativity.
               </p>
             </div>
           </div>
