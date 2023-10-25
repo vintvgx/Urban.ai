@@ -61,6 +61,7 @@
   gap: 15px;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  width: 100%;
 }
 
 .chat-container::-webkit-scrollbar {
