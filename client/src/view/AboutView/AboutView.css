@@ -1,12 +1,21 @@
 /* AboutView.css */
 
-.about-view {
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    
+  }
+  
+  .about-view {
+    flex-grow: 1;
+
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-family: 'Colfax,sans-serif', sans-serif; /* adjust the font family as required */
+    font-family: 'Colfax, sans-serif', sans-serif;
     height: 100%;
-    width: 100%;
+    width: 100vw;
     text-align: left;
   }
   
@@ -15,7 +24,7 @@
     height: 35vh;
     width: 70%;
     justify-content: center;
-    margin-top: 150px;
+    margin-top: 50px; /* Adjust the margin as needed */
     align-items: center;
     padding: 20px 0;
     border-bottom: solid 1px rgba(229, 228, 225, .8);
@@ -30,31 +39,30 @@
   }
   
   .about-content-section {
-    width: 70%; /* Width of the content section in desktop view */
+    width: 70%;
     display: flex;
+    flex-direction: row; /* Adjust the flex direction to your needs */
     justify-content: space-between;
     margin: 20px 0;
     margin-top: 70px;
   }
   
-  .about-section {
-    width: 50%;
-    align-items: flex-start;
-  
-  }
   .left-column {
-    width: 50%; 
+    width: 50%;
+    display: flex;
+    flex-direction: column;
     align-items: flex-start;
   }
   
   .right-column {
-    width: 50%; /* Width of the right column in desktop view */
+    width: 50%;
+    display: flex;
+    flex-direction: column;
     align-items: flex-start;
-  
   }
   
   .about-content-title {
-    order: 1; /* Display at the top in desktop view */
+    order: 1;
   }
   
   .about-content-title-text {
@@ -62,9 +70,8 @@
     font-weight: 300;
   }
   
-  
   .about-content {
-    order: 2; /* Display in the middle in desktop view */
+    order: 2;
   }
   
   .about-content p {
@@ -88,7 +95,7 @@
     .about-title {
       width: 100%;
       font-size: 3rem;
-    line-height: 3rem;
+      line-height: 3rem;
     }
   
     .about-content-section {
@@ -98,6 +105,11 @@
   
     .left-column,
     .right-column {
-      width: 85%; /* Full width for columns in phone view */
+      width: 85%;
+    }
+  
+    .right-column {
+      margin-top: 40px;
     }
   }
+  
