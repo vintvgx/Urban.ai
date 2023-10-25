@@ -20,6 +20,7 @@ const ChatView: React.FC = () => {
   const [chatHistory, setChatHistory] = useState<IMessage[]>([]);
   const [showHistoryModal, setShowHistoryModal] = useState(false);
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
+  const [showEnterToSubmit, setShowEnterToSubmit] = useState(false);
   const user = useAppSelector((state) => state.user);
   const [sessionID, setSessionID] = useState<string>(generateSessionID());
   const [selectedSessionID, setSelectedSessionID] = useState<string | null>(
@@ -109,6 +110,15 @@ const ChatView: React.FC = () => {
     }
   }, [messages, botIsThinking, messageAdded]);
 
+  useEffect(() => {
+    // Check if messages are 0 and the input has more than 2 characters
+    if (messages.length === 0 && input.length > 2) {
+      setShowEnterToSubmit(true);
+    } else {
+      setShowEnterToSubmit(false);
+    }
+  }, [input, messages]);
+
   const handleSessionClick = (session: any) => {
     console.log(session);
     setMessages(session?.messages);
@@ -189,15 +199,25 @@ const ChatView: React.FC = () => {
             position: "absolute",
             bottom: `${inputAreaBottom}px`,
           }}>
-          <textarea
-            autoFocus
-            rows={1}
-            value={input}
-            onKeyDown={handleKeyDown}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Type your message..."
-            className="chat-input"
-          />
+          <div className="input-container">
+            <textarea
+              autoFocus
+              rows={1}
+              value={input}
+              onKeyDown={handleKeyDown}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Type your message..."
+              className="chat-input"
+            />
+            {showEnterToSubmit && (
+              <div
+                className={`enter-to-submit ${
+                  showEnterToSubmit ? "show" : ""
+                }`}>
+                Press Enter to Submit
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
