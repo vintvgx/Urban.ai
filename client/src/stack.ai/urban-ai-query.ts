@@ -19,6 +19,8 @@ export async function urban_query(data: { "in-0": string }) {
     }
 
     const result = await response.json();
+    console.log(JSON.stringify(result, null, 2));
+    console.log(result["out-0"]);
     return result["out-0"] || "REACHED BOT MESSAGE LIMIT.";
   } catch (error) {
     console.error("Error fetching data:", error);

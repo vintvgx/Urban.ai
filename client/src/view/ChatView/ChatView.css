@@ -168,6 +168,7 @@
 .bot-message {
   font-size: large;
   text-align: left;
+  white-space: pre-wrap;
 }
 
 .loading-dots span {
