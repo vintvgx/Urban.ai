@@ -6,9 +6,9 @@ import {
   formatResponse,
 } from "../utils/functions";
 
-const SERVER_URL = "http://localhost:4000";
+// const SERVER_URL = "http://localhost:4000";
 
-// const SERVER_URL = "https://urban-ai-app-4dpgega65a-ue.a.run.app";
+const SERVER_URL = "https://urban-ai-app-4dpgega65a-ue.a.run.app";
 
 export const generateSessionID = () => {
   return `${new Date().getTime()}-${Math.random().toString(36).substr(2, 9)}`;
