@@ -32,7 +32,8 @@ const ChatView: React.FC = () => {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      handleSubmit(e as unknown as React.FormEvent);
+      // handleSubmit(e as unknown as React.FormEvent);
+      handleOpenAI(e as unknown as React.FormEvent);
     }
     fetchData();
   };
@@ -46,6 +47,51 @@ const ChatView: React.FC = () => {
     if (!user.user) return;
     fetchData();
   }, [fetchData, user.user]);
+
+  const handleOpenAI = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const userMessage: IMessage = {
+      type: "user",
+      content: input,
+      timestamp: new Date().toISOString(),
+      sessionID: sessionID,
+    };
+
+    // Update immediately with user's message
+    setMessages((prevMessages) => [...prevMessages, userMessage]);
+    setMessageAdded((prev) => prev + 1); // Increment the counter for user message
+    setInput("");
+    setBotIsThinking(true);
+
+    //fetch response to the api combining the chat log array of messages and sending it as a mesage to localhost:3000 as a post
+    const response = await fetch("http://localhost:3005/", {
+      method: "Post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: input,
+      }),
+    });
+
+    const data = await response.json();
+    console.log(
+      "🚀 ~ file: ChatView.tsx:79 ~ handleOpenAI ~ data:",
+      data.message
+    );
+
+    const botMessage: IMessage = {
+      type: "bot",
+      content: data.message,
+      timestamp: new Date().toISOString(),
+      sessionID: sessionID,
+    };
+
+    setMessages((prevMessages) => [...prevMessages, botMessage]);
+    setBotIsThinking(false);
+    setMessageAdded((prev) => prev + 1);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
