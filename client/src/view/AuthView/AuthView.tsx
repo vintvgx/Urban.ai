@@ -188,7 +188,7 @@ const AuthView: React.FC = () => {
               }}>
               <SocialCustomButton
                 onClick={loginGoogleUser}
-                imageURL="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg">
+                imageURL="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg">
                 {/* {isLogin ? "Sign in with Google" : "Sign Up with Google"} */}
                 Continue with Google
               </SocialCustomButton>

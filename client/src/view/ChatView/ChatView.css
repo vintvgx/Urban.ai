@@ -161,8 +161,9 @@
   max-width: 80%;
   font-size: 20px;
   padding: 10px;
-  font-style: italic; /* Add differentiation */
-  color: #747474bd; /* Add differentiation */
+  text-align: left;
+  font-style: italic; 
+  color: #747474bd; 
 }
 
 .bot-message {

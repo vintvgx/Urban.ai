@@ -6,6 +6,7 @@ import {
   generateSessionID,
   fetchChatHistory,
   handleSendMessage,
+  handleOpenAIResponse,
 } from "../../controller/ChatController";
 import "./ChatView.css";
 import { useTheme } from "../../theme/themeContext";
@@ -32,9 +33,10 @@ const ChatView: React.FC = () => {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      handleSubmit(e as unknown as React.FormEvent);
+      // handleSubmit(e as unknown as React.FormEvent);
+      handleOpenAI(e as unknown as React.FormEvent);
     }
-    fetchData();
+    if (user.user) fetchData();
   };
 
   const fetchData = useCallback(async () => {
@@ -43,9 +45,39 @@ const ChatView: React.FC = () => {
   }, [user]);
 
   useEffect(() => {
-    if (!user.user) return;
-    fetchData();
+    if (user.user) fetchData();
   }, [fetchData, user.user]);
+
+  const handleOpenAI = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const userMessage: IMessage = {
+      type: "user",
+      content: input,
+      timestamp: new Date().toISOString(),
+      sessionID: sessionID,
+    };
+
+    // Update immediately with user's message
+    setMessages((prevMessages) => [...prevMessages, userMessage]);
+    setMessageAdded((prev) => prev + 1); // Increment the counter for user message
+    setInput("");
+    setBotIsThinking(true);
+
+    // Handle bot response
+    const botMessage = await handleOpenAIResponse(
+      input,
+      user,
+      userMessage,
+      messages,
+      sessionID
+    );
+
+    setMessages((prevMessages) => [...prevMessages, botMessage]);
+    setBotIsThinking(false);
+    setMessageAdded((prev) => prev + 1);
+    if (user.user) fetchData();
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -86,7 +118,7 @@ const ChatView: React.FC = () => {
     setMessages((prevMessages) => [...prevMessages, botMessage]);
     setBotIsThinking(false);
     setMessageAdded((prev) => prev + 1);
-    fetchData();
+    if (user.user) fetchData();
   };
 
   useEffect(() => {
