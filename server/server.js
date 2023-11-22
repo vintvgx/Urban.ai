@@ -147,7 +147,7 @@ app.use((err, req, res, next) => {
 });
 
 // Server listener
-const apiPort = 4000;
+const apiPort = process.env.PORT || 4000;
 connectDB()
   .then(() => {
     app.listen(apiPort, () => {
