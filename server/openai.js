@@ -1,5 +1,6 @@
 // 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
 const OpenAI = require("openai");
+const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -11,8 +12,12 @@ const openai = new OpenAI({
 });
 
 const app = express();
+
+// Serve React App as static
+app.use(express.static(path.join(__dirname, "client/build")));
 const port = 3005;
 
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -93,5 +98,5 @@ app.post("/open-ai-response", async (req, res) => {
 // });
 
 app.listen(port, () => {
-  console.log(`Example app listening`);
+  console.log(`URBAN AI chatbot running`);
 });
