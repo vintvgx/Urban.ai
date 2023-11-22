@@ -6,6 +6,7 @@ import {
   generateSessionID,
   fetchChatHistory,
   handleSendMessage,
+  handleOpenAIResponse,
 } from "../../controller/ChatController";
 import "./ChatView.css";
 import { useTheme } from "../../theme/themeContext";
@@ -35,7 +36,7 @@ const ChatView: React.FC = () => {
       // handleSubmit(e as unknown as React.FormEvent);
       handleOpenAI(e as unknown as React.FormEvent);
     }
-    fetchData();
+    if (user.user) fetchData();
   };
 
   const fetchData = useCallback(async () => {
@@ -44,8 +45,7 @@ const ChatView: React.FC = () => {
   }, [user]);
 
   useEffect(() => {
-    if (!user.user) return;
-    fetchData();
+    if (user.user) fetchData();
   }, [fetchData, user.user]);
 
   const handleOpenAI = async (e: React.FormEvent) => {
@@ -64,33 +64,19 @@ const ChatView: React.FC = () => {
     setInput("");
     setBotIsThinking(true);
 
-    //fetch response to the api combining the chat log array of messages and sending it as a mesage to localhost:3000 as a post
-    const response = await fetch("http://localhost:3005/", {
-      method: "Post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        message: input,
-      }),
-    });
-
-    const data = await response.json();
-    console.log(
-      "🚀 ~ file: ChatView.tsx:79 ~ handleOpenAI ~ data:",
-      data.message
+    // Handle bot response
+    const botMessage = await handleOpenAIResponse(
+      input,
+      user,
+      userMessage,
+      messages,
+      sessionID
     );
-
-    const botMessage: IMessage = {
-      type: "bot",
-      content: data.message,
-      timestamp: new Date().toISOString(),
-      sessionID: sessionID,
-    };
 
     setMessages((prevMessages) => [...prevMessages, botMessage]);
     setBotIsThinking(false);
     setMessageAdded((prev) => prev + 1);
+    if (user.user) fetchData();
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -132,7 +118,7 @@ const ChatView: React.FC = () => {
     setMessages((prevMessages) => [...prevMessages, botMessage]);
     setBotIsThinking(false);
     setMessageAdded((prev) => prev + 1);
-    fetchData();
+    if (user.user) fetchData();
   };
 
   useEffect(() => {

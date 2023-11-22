@@ -16,7 +16,7 @@ const port = 3005;
 app.use(cors());
 app.use(bodyParser.json());
 
-app.post("/", async (req, res) => {
+app.post("/open-ai-response", async (req, res) => {
   const { message } = req.body;
   console.log("🚀 ~ file: openai.js:15 ~ app.post ~ message:", message);
 
@@ -26,7 +26,7 @@ app.post("/", async (req, res) => {
       { role: "user", content: message },
     ],
     model: "gpt-3.5-turbo",
-    max_tokens: 100,
+    max_tokens: 1000,
     temperature: 0.5,
   });
 
