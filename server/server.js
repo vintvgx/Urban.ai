@@ -1,10 +1,14 @@
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const { connectDB, getDB } = require("./db");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-require("dotenv").config();
+
 const OpenAI = require("openai");
+
+console.log("Org ID:", process.env.OPENAI_ORG_ID);
+console.log("API Key:", process.env.OPENAI_API_KEY);
 
 const app = express();
 
