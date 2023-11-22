@@ -1,4 +1,3 @@
-// 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
 const OpenAI = require("openai");
 const path = require("path");
 const express = require("express");

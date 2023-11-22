@@ -3,7 +3,8 @@ const path = require("path");
 const { connectDB, getDB } = require("./db");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-require("dotenv").config({ path: "./config/dev.env" });
+require("dotenv").config();
+const OpenAI = require("openai");
 
 const app = express();
 
@@ -13,6 +14,11 @@ app.use(express.static(path.join(__dirname, "client/build")));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(bodyParser.json());
+
+const openai = new OpenAI({
+  organization: process.env.OPENAI_ORG_ID,
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -48,6 +54,54 @@ app.post("/store-message", async (req, res) => {
   } catch (error) {
     res.status(500).send("Error storing message: " + error.message);
   }
+});
+
+app.post("/open-ai-response-server", async (req, res) => {
+  const { message } = req.body;
+  console.log("🚀 ~ file: openai.js:15 ~ app.post ~ message:", message);
+
+  const response = await openai.chat.completions.create({
+    messages: [
+      { role: "system", content: "You respond to queries using urban slang" },
+      { role: "user", content: message },
+    ],
+    model: "gpt-3.5-turbo",
+    max_tokens: 1000,
+    temperature: 0.5,
+  });
+
+  console.log("🚀 ~ file: openai.js:28 ~ app.post ~ response:", response);
+  console.log(
+    "🚀 ~ file: openai.js:28 ~ app.post ~ response:",
+    response.choices[0].message.content
+  );
+
+  // Check if choices array exists and has elements
+  if (response.choices && response.choices.length > 0) {
+    const messageObject = response.choices[0].message;
+
+    // Check if message object exists
+    if (messageObject) {
+      const messageContent = messageObject.content;
+
+      console.log(
+        "🚀 ~ file: openai.js:28 ~ app.post ~ message content:",
+        messageContent
+      );
+    } else {
+      console.log(
+        "🚀 ~ file: openai.js:28 ~ app.post ~ No message object found"
+      );
+    }
+  } else {
+    console.log(
+      "🚀 ~ file: openai.js:28 ~ app.post ~ No choices found in the response"
+    );
+  }
+
+  res.json({
+    message: response.choices[0].message.content,
+  });
 });
 
 // Fetch all chat messages for the authenticated user
