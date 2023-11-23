@@ -1,10 +1,6 @@
 // ChatController.ts
 import { IMessage } from "../model/types";
-import { urban_query } from "../stack.ai/urban-ai-query";
-import {
-  extractTimestampFromSessionID,
-  formatResponse,
-} from "../utils/functions";
+import { extractTimestampFromSessionID } from "../utils/functions";
 
 // const SERVER_URL = "http://localhost:4000";
 
@@ -42,55 +38,6 @@ export const fetchChatHistory = async (user: any) => {
     console.error("Failed to fetch chat history:", error);
     return [];
   }
-};
-
-export const handleSendMessage = async (
-  input: string,
-  user: any,
-  userMessage: IMessage,
-  messages: IMessage[],
-  sessionID: string
-) => {
-  const data = {
-    "in-0": input,
-  };
-
-  let response = await urban_query(data);
-
-  response = formatResponse(response);
-
-  const botMessage: IMessage = {
-    type: "bot",
-    content: response,
-    timestamp: new Date().toISOString(),
-    sessionID: sessionID,
-  };
-
-  const newMessages = [...messages, userMessage, botMessage];
-
-  // If user is signed in
-  if (user.isLoggedIn) {
-    try {
-      // Save the messages (both user and bot)
-      await fetch(`${SERVER_URL}/store-message`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer`,
-        },
-        body: JSON.stringify({
-          messages: newMessages,
-          userId: user.user?.uid,
-          sessionID,
-        }),
-      });
-      console.log("----------CHATBOT SAVED-----------");
-    } catch (error) {
-      console.error("Failed to store messages", error);
-    }
-  }
-
-  return botMessage;
 };
 
 export const handleOpenAIResponse = async (
