@@ -5,7 +5,6 @@ import { useAppSelector } from "../../redux/store";
 import {
   generateSessionID,
   fetchChatHistory,
-  handleSendMessage,
   handleOpenAIResponse,
 } from "../../controller/ChatController";
 import "./ChatView.css";
@@ -79,48 +78,6 @@ const ChatView: React.FC = () => {
     if (user.user) fetchData();
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Check if the input is empty or just whitespace
-    if (!input.trim()) {
-      shakeInput(); // Trigger the shake animation
-      return; // Exit the function early without sending the message
-    }
-
-    if (botIsThinking) {
-      shakeInput(); // Trigger the shake animation
-      return; // Exit from the function early
-    }
-
-    const userMessage: IMessage = {
-      type: "user",
-      content: input,
-      timestamp: new Date().toISOString(),
-      sessionID: sessionID,
-    };
-
-    // Update immediately with user's message
-    setMessages((prevMessages) => [...prevMessages, userMessage]);
-    setMessageAdded((prev) => prev + 1); // Increment the counter for user message
-    setInput("");
-    setBotIsThinking(true);
-
-    // Handle bot response
-    const botMessage = await handleSendMessage(
-      input,
-      user,
-      userMessage,
-      messages,
-      sessionID
-    );
-
-    setMessages((prevMessages) => [...prevMessages, botMessage]);
-    setBotIsThinking(false);
-    setMessageAdded((prev) => prev + 1);
-    if (user.user) fetchData();
-  };
-
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop =
@@ -163,17 +120,6 @@ const ChatView: React.FC = () => {
     setSessionID(generateSessionID()); // Generate a new session ID
     setShowHistoryModal(false); // Close the history modal
     setSelectedSessionID(null);
-  };
-
-  const shakeInput = () => {
-    const inputElement = document.querySelector(".chat-input") as HTMLElement;
-    if (inputElement) {
-      inputElement.classList.add("shake");
-      // Remove the animation class after it completes
-      setTimeout(() => {
-        inputElement.classList.remove("shake");
-      }, 500); // match the duration of the animation
-    }
   };
 
   return (
