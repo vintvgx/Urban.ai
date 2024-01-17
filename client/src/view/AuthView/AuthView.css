@@ -6,24 +6,6 @@
   box-sizing: border-box;
 }
 
-.auth-view {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    
-  }  
-
-.auth-view-light {
-  background-color: #FCFCFC
-}
-
-.auth-view-dark {
-  background-color: rgb(5, 3, 3);
-}
-
-
   h2 {
     font-size: 2rem;
     font-weight: normal;
@@ -74,6 +56,23 @@ button  {
     background-color: #fff;
     color:rgb(5, 3, 3)
   } 
+
+
+.auth-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}  
+
+.auth-view-light {
+background-color: #FCFCFC
+}
+
+.auth-view-dark {
+background-color: rgb(5, 3, 3);
+}
  
   .inputs-view {
     display: flex;
