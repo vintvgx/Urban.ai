@@ -48,6 +48,20 @@ export const handleOpenAIResponse = async (
   sessionID: string
 ) => {
   try {
+    // Prepare the chat history for the API request
+    const chatHistory = messages.map((msg) => {
+      // Handle both string and object types for content
+      const content =
+        typeof msg.content === "string"
+          ? msg.content
+          : JSON.stringify(msg.content);
+
+      return {
+        role: msg.type === "bot" ? "assistant" : "user", // Convert 'type' to the role expected by OpenAI
+        content: content,
+      };
+    });
+
     //fetch response to the api combining the chat log array of messages and sending it as a mesage to localhost:3000 as a post
     const response = await fetch(`${SERVER_URL}/open-ai-response-server`, {
       method: "Post",
@@ -56,6 +70,7 @@ export const handleOpenAIResponse = async (
       },
       body: JSON.stringify({
         message: input,
+        chatHistory,
       }),
     });
 
