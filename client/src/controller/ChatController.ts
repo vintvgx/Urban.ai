@@ -62,6 +62,8 @@ export const handleOpenAIResponse = async (
       };
     });
 
+    console.log("chatHistory", chatHistory);
+
     //fetch response to the api combining the chat log array of messages and sending it as a mesage to localhost:3000 as a post
     const response = await fetch(`${SERVER_URL}/open-ai-response-server`, {
       method: "Post",
