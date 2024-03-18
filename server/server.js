@@ -61,14 +61,17 @@ app.post("/store-message", async (req, res) => {
 });
 
 app.post("/open-ai-response-server", async (req, res) => {
-  const { message } = req.body;
+  const { message, chatHistory } = req.body;
   console.log("🚀 ~ file: openai.js:15 ~ app.post ~ message:", message);
 
+  const messages = [
+    { role: "system", content: "You respond to queries using urban slang" },
+    ...chatHistory, // Spread the chat history into the messages array
+    { role: "user", content: message },
+  ];
+
   const response = await openai.chat.completions.create({
-    messages: [
-      { role: "system", content: "You respond to queries using urban slang" },
-      { role: "user", content: message },
-    ],
+    messages,
     model: "gpt-3.5-turbo",
     max_tokens: 1000,
     temperature: 0.5,
