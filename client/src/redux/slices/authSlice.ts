@@ -6,7 +6,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../../firebase/firebase.config";
 import { AuthPayload, User, UserState } from "../../model/types";
-import Sentry from "@sentry/react";
+import * as Sentry from "@sentry/react";
 
 const initialState: UserState = {
   user: null,

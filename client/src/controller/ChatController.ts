@@ -1,7 +1,7 @@
 // ChatController.ts
 import { IMessage } from "../model/types";
 import { extractTimestampFromSessionID } from "../utils/functions";
-import Sentry from "@sentry/react";
+import * as Sentry from "@sentry/react";
 
 // const SERVER_URL = "http://localhost:4000";
 
