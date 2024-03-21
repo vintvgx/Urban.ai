@@ -6,6 +6,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../../firebase/firebase.config";
 import { AuthPayload, User, UserState } from "../../model/types";
+import Sentry from "@sentry/react";
 
 const initialState: UserState = {
   user: null,
@@ -62,26 +63,61 @@ export const { setLoggedIn, setUser, authLoading, authError, clearError } =
 
 export const login = createAsyncThunk(
   "user/login",
-  async ({ email, password }: AuthPayload): Promise<any> => {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    return userCredential.user;
+  async ({ email, password }: AuthPayload, { rejectWithValue }) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      // Capture successful login
+      Sentry.captureMessage("User logged in", {
+        level: "info",
+        user: { email: email },
+      });
+
+      return userCredential.user;
+    } catch (error) {
+      Sentry.captureException(error, {
+        extra: {
+          email: email,
+        },
+      });
+
+      return rejectWithValue(error);
+    }
   }
 );
 
 export const signup = createAsyncThunk(
   "user/signup",
-  async ({ email, password }: AuthPayload) => {
-    await createUserWithEmailAndPassword(auth, email, password);
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    return userCredential.user;
+  async ({ email, password }: AuthPayload, { rejectWithValue }) => {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      // Capture successful signup
+      Sentry.captureMessage("User signed up and logged in", {
+        level: "info",
+        user: { email: email },
+      });
+
+      return userCredential.user;
+    } catch (error) {
+      // Capture signup errors
+      Sentry.captureException(error, {
+        extra: {
+          email: email,
+        },
+      });
+
+      return rejectWithValue(error);
+    }
   }
 );
 

@@ -1,6 +1,7 @@
 // ChatController.ts
 import { IMessage } from "../model/types";
 import { extractTimestampFromSessionID } from "../utils/functions";
+import Sentry from "@sentry/react";
 
 // const SERVER_URL = "http://localhost:4000";
 
@@ -82,6 +83,17 @@ export const handleOpenAIResponse = async (
 
     const data = await response.json();
 
+    // Successful interaction capture
+    Sentry.captureMessage("OpenAI response successful", {
+      level: "info", // Optional: Adjust the level accordingly
+      extra: {
+        input: input,
+        response: data.message,
+        userEmail: user.isLoggedIn ? user.user?.email : "Guest",
+        sessionID: sessionID,
+      },
+    });
+
     const botMessage: IMessage = {
       type: "bot",
       content: data.message,
@@ -114,8 +126,19 @@ export const handleOpenAIResponse = async (
     }
 
     return botMessage;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error in handleOpenAIResponse:", error);
+
+    Sentry.captureMessage("OpenAI response error", {
+      level: "error", // This is critical, hence marked as error
+      extra: {
+        input: input,
+        error: error.message,
+        userEmail: user.isLoggedIn ? user.user?.email : "Guest",
+        sessionID: sessionID,
+      },
+    });
+
     const botMessage: IMessage = {
       type: "bot",
       content: "API has been overloaded. Please try again later.",
