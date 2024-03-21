@@ -20,6 +20,7 @@ import {
 import "./AuthView.css";
 import { useTheme } from "../../theme/themeContext";
 import Footer from "../../components/Footer/Footer";
+import * as Sentry from "@sentry/react";
 
 const AuthView: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -85,12 +86,27 @@ const AuthView: React.FC = () => {
           })
         );
         dispatch(setLoggedIn(true)); // set logged in status to true
+
+        Sentry.captureMessage("User logged in", {
+          level: "info",
+          user: {
+            ...response.user,
+            email: response.user.email || undefined, // Ensure email is of type 'string'
+          },
+        });
+
         navigate("/chatview");
       } else {
         dispatch(authError("Google Sign-In Failed"));
       }
     } catch (error) {
       dispatch(authError("Failed to login or signup with Google Auth."));
+
+      Sentry.captureException(error, {
+        extra: {
+          response: error,
+        },
+      });
     }
   };
 
@@ -110,12 +126,27 @@ const AuthView: React.FC = () => {
           })
         );
         dispatch(setLoggedIn(true)); // set logged in status to true
+
+        Sentry.captureMessage("User logged in", {
+          level: "info",
+          user: {
+            ...response.user,
+            email: response.user.email || undefined, // Ensure email is of type 'string'
+          },
+        });
+
         navigate("/chatview");
       } else {
         dispatch(authError("Facebook Sign-In Failed"));
       }
     } catch (error) {
       dispatch(authError("Failed to login or signup with Facebook Auth."));
+
+      Sentry.captureException(error, {
+        extra: {
+          response: error,
+        },
+      });
     }
   };
 
