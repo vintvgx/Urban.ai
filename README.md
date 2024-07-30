@@ -31,3 +31,5 @@ Welcome to **Urban.ai**, an innovative chatbot designed to bring you a unique co
 # Visit site
 
 [Urban.ai](https://urbanai.info/)
+
+# Release Notes
