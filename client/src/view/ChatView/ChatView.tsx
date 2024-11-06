@@ -51,7 +51,7 @@ const ChatView: React.FC = () => {
     e.preventDefault();
 
     const userMessage: IMessage = {
-      type: "user",
+      role: "user",
       content: input,
       timestamp: new Date().toISOString(),
       sessionID: sessionID,
@@ -145,14 +145,14 @@ const ChatView: React.FC = () => {
           {messages.map((message, index) => (
             <div
               key={index}
-              className={`message-wrapper ${message.type}-message-wrapper ${
-                message.type === "user"
+              className={`message-wrapper ${message.role}-message-wrapper ${
+                message.role === "user"
                   ? "user-message-entering"
-                  : message.type === "bot"
+                  : message.role === "bot"
                   ? "bot-message-entering"
                   : ""
               }`}>
-              <div className={`${message.type}-message`}>
+              <div className={`${message.role}-message`}>
                 {typeof message.content === "string"
                   ? message.content
                   : JSON.stringify(message.content)}
