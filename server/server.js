@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const path = x("path");
+const path = require("path");
 const { connectDB, getDB } = require("./db");
 const bodyParser = require("body-parser");
 const cors = require("cors");
