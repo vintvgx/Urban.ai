@@ -22,3 +22,6 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# project info
+PROJ_INFO.md

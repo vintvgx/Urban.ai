@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const path = require("path");
+const path = x("path");
 const { connectDB, getDB } = require("./db");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -12,7 +12,7 @@ console.log("API Key:", process.env.OPENAI_API_KEY);
 
 const app = express();
 
-// Serve React App as static
+// Serve React App (client) as static
 app.use(express.static(path.join(__dirname, "client/build")));
 
 app.use(bodyParser.urlencoded({ extended: true }));
