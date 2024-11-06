@@ -1,5 +1,5 @@
 export interface IMessage {
-  type: "user" | "bot";
+  role: "user" | "bot" | "assistant";
   content: string | object;
   timestamp?: string | null;
   sessionID: string;
