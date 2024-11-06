@@ -58,7 +58,7 @@ export const handleOpenAIResponse = async (
           : JSON.stringify(msg.content);
 
       return {
-        role: msg.type === "bot" ? "assistant" : "user", // Convert 'type' to the role expected by OpenAI
+        role: msg.role === "bot" ? "assistant" : "user", // Convert 'type' to the role expected by OpenAI
         content: content,
       };
     });
@@ -95,7 +95,7 @@ export const handleOpenAIResponse = async (
     });
 
     const botMessage: IMessage = {
-      type: "bot",
+      role: "bot",
       content: data.message,
       timestamp: new Date().toISOString(),
       sessionID: sessionID,
@@ -140,7 +140,7 @@ export const handleOpenAIResponse = async (
     });
 
     const botMessage: IMessage = {
-      type: "bot",
+      role: "bot",
       content: "API has been overloaded. Please try again later.",
       timestamp: new Date().toISOString(),
       sessionID: sessionID,
