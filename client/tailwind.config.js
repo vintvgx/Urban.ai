@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  purge: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       backgroundColor: {
@@ -16,7 +16,7 @@ module.exports = {
   },
   variants: {
     extend: {
-      backgroundColor: ["hover", "focus"], // just ensuring hover is included
+      backgroundColor: ["hover", "focus"],
     },
   },
   plugins: [],
