@@ -72,9 +72,9 @@ app.post("/open-ai-response-server", async (req, res) => {
 
   const response = await openai.chat.completions.create({
     messages,
-    model: "gpt-3.5-turbo",
-    max_tokens: 1000,
-    temperature: 0.5,
+    model: "gpt-4o-mini",
+    // max_tokens: 2048,
+    temperature: 0.7,
   });
 
   console.log("🚀 ~ file: openai.js:28 ~ app.post ~ response:", response);
